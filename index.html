@@ -58,7 +58,6 @@
       showRowNumber: false,
       width: '100%',
       height: 'auto',
-      allowHtml: true
     };
 
     var table = new google.visualization.Table(document.getElementById('leaderboard_div'));
@@ -66,7 +65,7 @@
 // You can customize the appearance and style of the Table with CSS or modify the options object in the code below.
 // Details at https://developers.google.com/chart/interactive/docs/gallery/table
 	  
-	  table.draw(data, {width: '500', height: '100%'});
+	  table.draw(data, {width: '500', height: '100%', allowHtml: true});
   }
 </script>
 
