@@ -19,12 +19,7 @@
 </head>
 <body>
 
- <center>
-	 
-<h2>Leaderboard Example</h2>
-	 
-<!-- You can customize the appearance and style of the Table with CSS or modify the options object in the code -->
-<!-- Details at https://developers.google.com/chart/interactive/docs/gallery/table -->
+ <center><h2>Leaderboard Example</h2> </center> 
 	
 	<div id="leaderboard_div"></div>
 	
@@ -62,10 +57,13 @@
 
     var table = new google.visualization.Table(document.getElementById('leaderboard_div'));
 
+// You can customize the appearance and style of the Table with CSS or modify the options object in the code below.
+// Details at https://developers.google.com/chart/interactive/docs/gallery/table
+	  
     table.draw(data, options);
   }
 </script>
-	 </center> 
+	
 	
 </body>
 </html>
