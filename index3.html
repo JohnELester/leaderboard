@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaderboard</title>
+    <style>
+        /* Basic styling for the table */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Leaderboard</h1>
+<table id="leaderboard">
+    <thead>
+        <tr id="table-header">
+            <!-- Table headers will be inserted here -->
+        </tr>
+    </thead>
+    <tbody id="table-body">
+        <!-- Table data will be inserted here -->
+    </tbody>
+</table>
+
+<script>
+    // Replace these with your own Google Sheet ID and Sheet Name
+    var spreadsheetId = '1YY7OdFwoUeTJ7Yv6DUIBMZd7otMboEOnWFe9_L7jyj0'; // e.g., '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms'
+    var sheetName = 'Top 10'; // e.g., 'Sheet1'
+
+    // Construct the JSON URL
+    var jsonUrl = 'https://docs.google.com/spreadsheets/d/' + spreadsheetId + '/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent(sheetName);
+
+    fetch(jsonUrl)
+        .then(response => response.text())
+        .then(text => {
+            // Clean up the response to make it valid JSON
+            var json = JSON.parse(text.substring(47, text.length - 2));
+            var data = parseGoogleSheetJSON(json);
+            populateTable(data);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+
+    // Function to parse the Google Sheets JSON format
+    function parseGoogleSheetJSON(json) {
+        var cols = json.table.cols;
+        var rows = json.table.rows;
+
+        var headers = cols.map(function(col) {
+            return col.label;
+        });
+
+        var data = [];
+        data.push(headers);
+
+        rows.forEach(function(row) {
+            var rowData = row.c.map(function(cell) {
+                return cell ? cell.v : '';
+            });
+            data.push(rowData);
+        });
+
+        return data;
+    }
+
+    // Function to populate the HTML table with data
+    function populateTable(data) {
+        var tableHeader = document.getElementById('table-header');
+        var tableBody = document.getElementById('table-body');
+
+        // Create table headers
+        var headers = data[0];
+        headers.forEach(function(header) {
+            var th = document.createElement('th');
+            th.textContent = header;
+            tableHeader.appendChild(th);
+        });
+
+        // Create table rows
+        for (var i = 1; i < data.length; i++) {
+            var tr = document.createElement('tr');
+            var row = data[i];
+            row.forEach(function(cell) {
+                var td = document.createElement('td');
+                td.textContent = cell;
+                tr.appendChild(td);
+            });
+            tableBody.appendChild(tr);
+        }
+    }
+</script>
+
+</body>
+</html>
